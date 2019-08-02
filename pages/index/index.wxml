@@ -1,0 +1,39 @@
+<!--index.wxml-->
+<view class="page page1" hidden='{{showPage2}}'>
+  <view class='logo'>
+      <image src='{{logosrc}}'></image>
+    </view>
+  <view class="searchBox" bindtap='gotoPage2'>
+    <input id='key' placeholder='请输入要翻译的文本' focus='{{focus}}' ></input>
+    <icon type='search' class='fs' ></icon>
+  </view>
+  <view class='hot'>
+    <text class='guide'>热门查询</text>
+    <view  class='hotcon' >
+      <text wx:for="{{hot}}" class='it' bindtouchend='gotoPage2' data-val='{{item}}'>{{item}}</text>     
+    </view>
+  </view>
+</view>
+<view class='page page2' hidden='{{!showPage2}}'>
+ <view class='logo'>
+      <image src='{{logosrc}}'></image>
+    </view>
+    <text class="guide">输入语句</text>
+    <view class='scon'>
+       <input id='key' placeholder='请输入要翻译的文本' value='{{keyword}}' confirm-type='search' bindinput="bindKeyInput"></input>
+        <icon type='clear' id='clear' bindtouchend='clearkey'></icon>
+    </view>
+     <text class="guide">选择目标语言</text>
+     <view class='table'>
+      <view class='tableli' wx:for='{{langs}}'   bindtap='selectLang'>
+        <text class='{{item.on>0?"tablea on":"tablea"}}' data-key='{{item.key}}' data-index='{{index}}'>{{item.val}}</text></view>
+     </view>
+     <button id='create' bindtap='getResult'>生成</button>
+     <view class="guide">
+        <text>结果</text>
+        <button wx:if="{{copyBtn}}" id='copyBtn' bindtap='copyResult'>复制结果</button>
+     </view>
+     <view class='result'>
+        <view  wx:for='{{aims}}'><text>{{item}}</text></view>
+     </view>
+</view>
