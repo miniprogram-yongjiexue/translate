@@ -2,27 +2,27 @@
 //获取应用实例
 const app = getApp()
 var getHot=function(t){
-  var url ="https://h5.itianhuihui.com/translate/xcxApi.php?m=hot";
+  var url ="https://node.huokele.com/translate/lang/hot";
   wx.request({
     url: url,
     success: function (res) {
       //console.log(res);
         t.setData({
-          hot: res.data
+          hot: res.data.data
         });
       }
   })
 };
 var getlangs = function (t) {
-  var url = "https://h5.itianhuihui.com/translate/xcxApi.php?m=langs";
+  var url = "https://node.huokele.com/translate/lang/list";
   wx.request({
     url: url,
     success: function (res) {
       var sp=0;
       var langs=[];
-      for (var i in res.data ){
+      for (var i in res.data.data ){
         var m = sp>2?0:1;
-        var tmp = { on: m, key:i,val: res.data[i]}
+        var tmp = { on: m, key:i,val: res.data['data'][i]}
         langs.push(tmp);
         sp++;
       }
@@ -196,7 +196,7 @@ Page({
     var issend = this.data.issend;
     if (issend) return false;
     var that = this;
-    var url = "https://h5.itianhuihui.com/translate/translateApi.php";
+    var url = "https://node.huokele.com/translate/lang/result";
     var keyword=this.data.keyword;
     var langdata = this.data.langs;
     var sp=[];
@@ -205,7 +205,7 @@ Page({
         sp.push(langdata[i]['key']);
       }
     }
-    var langs=sp.join(',');
+    var langs=sp.join('&');
     if(keyword==""){
       isOk = false;
       showModal("提示","请输入要翻译的文本");
@@ -219,15 +219,15 @@ Page({
     if(!isOk) return false;
     wx.request({
       url: url,
+      method:"post",
       data: {
-        keyword:keyword,
+        query:keyword,
         langs:langs,
-        plat:1
       },
       success:function(res){
         if(res.data!==""){
           that.setData({
-              aims:res.data,
+              aims:res.data.data,
               copyBtn:true,
           });
         }

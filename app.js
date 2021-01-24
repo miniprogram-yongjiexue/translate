@@ -38,7 +38,7 @@ App({
     userInfo: null,
     hot:"",
     langs:null,
-    hot:"77",
+    hot:['你好','谢谢'],
   },
   getHot:function (t) {
     var that=this;
